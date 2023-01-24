@@ -1,13 +1,34 @@
-/**
- * @param { import("knex").Knex } knex
- * @returns { Promise<void> } 
- */
+//Just from players handbook currently
+
 exports.seed = async function(knex) {
-  // Deletes ALL existing entries
-  await knex('table_name').del()
-  await knex('table_name').insert([
-    {id: 1, colName: 'rowValue1'},
-    {id: 2, colName: 'rowValue2'},
-    {id: 3, colName: 'rowValue3'}
+ 
+  await knex('races').insert([
+    {
+      race_name: `Dwarf`
+    },
+    {
+      race_name: `Elf`
+    },
+    {
+      race_name: `Halfling`
+    },
+    {
+      race_name: `Human`
+    },
+    {
+      race_name: `Dragonborn`
+    },
+    {
+      race_name: `Gnome`
+    },
+    {
+      race_name: `Half-Elf`
+    },
+    {
+      race_name: `Half-Orc`
+    },
+    {
+      race_name: `Tiefling`
+    },
   ]);
 };
