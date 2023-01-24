@@ -1,6 +1,5 @@
  
 exports.seed = async function(knex) {
- 
   await knex('genders').insert([
     {
       gender: `Female`

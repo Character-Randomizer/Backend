@@ -1,9 +1,12 @@
 const bcrypt = require(`bcryptjs`)
+require('dotenv').config()
 
-const hash = bcrypt.hashSync(`bardic!nspiration`, 9)
+const hash = bcrypt.hashSync(process.env.USER, 9)
 
-//continue making password encrypted (a seecret) after you can check the endpoint works with the seed file.
-// Use this article to help you: https://medium.com/@jengopockets/encrypting-seeded-passwords-with-node-js-knex-and-bcrypt-e2efe56f745e
+// Used this article to help me: https://medium.com/@jengopockets/encrypting-seeded-passwords-with-node-js-knex-and-bcrypt-e2efe56f745e
+
+//Need to set environmental variable when setting up seeds, unsure how to modify this for more than one user at this time
+  //Possibly creating multiple different environmental variables and then setting them at initialization
 
 exports.seed = async function(knex) {
   await knex('users').insert([

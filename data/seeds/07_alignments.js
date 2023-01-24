@@ -1,6 +1,5 @@
  
 exports.seed = async function(knex) {
- 
   await knex('alignments').insert([
     {
       alignment: `Lawful Good`,

@@ -1,7 +1,6 @@
  //Just from the player's handbook and no other source currently
 
  exports.seed = async function(knex) {
- 
   await knex(`backgrounds`).insert([
     {
       background_name: `Acolyte`, 

@@ -1,7 +1,6 @@
 //Just from players handbook currently
 
 exports.seed = async function(knex) {
- 
   await knex('races').insert([
     {
       race_name: `Dwarf`

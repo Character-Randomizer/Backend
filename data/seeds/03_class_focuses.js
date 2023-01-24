@@ -2,7 +2,6 @@
  //Will try to come back and finish for all classes
  
  exports.seed = async function(knex) {
- 
   await knex('class_focuses').insert([
     {
       class_focus_id: 1,
