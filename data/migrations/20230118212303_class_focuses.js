@@ -12,7 +12,7 @@ exports.up = function(knex) {
             cf.string(`class_focus`)
                 .unique()
                 .notNullable()
-            cf.string(`focus_description`)
+            cf.string(`focus_description`, [10000])
         })
 };
 

@@ -42,7 +42,7 @@ exports.up = function(knex) {
               .inTable(`races`)
               .onUpdate(`RESTRICT`)
               .onDelete(`RESTRICT`)
-          char.string(`phys_description`)
+          char.string(`phys_description`, [10000])
           char.integer(`strength_stat`)
               .notNullable()
           char.integer(`dex_stat`)

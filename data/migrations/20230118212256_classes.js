@@ -5,7 +5,7 @@ exports.up = function(knex) {
             c.string(`class`)
                 .unique()
                 .notNullable()
-            c.string(`class_description`)
+            c.string(`class_description`, [10000])
         })
 };
 

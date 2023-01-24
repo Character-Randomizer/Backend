@@ -5,7 +5,7 @@ exports.up = function(knex) {
             bg.string(`background_name`)
                 .notNullable()
                 .unique()
-            bg.string(`background_description`)
+            bg.string(`background_description`, [10000])
         })
 };
 
