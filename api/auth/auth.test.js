@@ -3,8 +3,8 @@ const db = require(`../../data/dbConfig`)
 const request = require(`supertest`)
 const server = require(`../server`)
 const {existingUser, newUser, newUserNoUn, newUserNoPw, newUserNoFirstName, 
-        newUserNoLastName, newUserNoEmail, newUserTermsFalse, newUserNoDob, newUserExistingUn
-        invalidPass, noUser, noUser2, noUsername, noUsername2, noPass, noPass2} = require(`./auth-test-variables`)
+        newUserNoLastName, newUserNoEmail, newUserTermsFalse, newUserNoDob, newUserExistingUn, 
+        invalidPass, noUsername, noUsername2, noPass, noPass2} = require(`./auth-test-variables`)
 
 beforeAll(async () => {
     await db.migrate.rollback()
@@ -96,22 +96,37 @@ describe(`[POST] /api/auth/register`, () => {
 
 describe(`[POST] /api/auth/login`, () => {
     test(`[6] logs in user (returns user info)`, async () => {       
+        const res = await request(server).post(`/api/auth/login`).send(existingUser)
 
+        expect(res.status).toBe(200)
+        expect(res.body).toMatchObject({username: existingUser.username})
     })
 
     test(`[7] resolves in an error if username is invalid`, async () => {
-        
+        const res = await request(server).post(`/api/auth/login`).send(noUsername)
+
+        expect(res.status).toBe(400)
+        expect(res.body).toMatchObject({message: `provide a valid username or password`})
     })
 
     test(`[8] resolves in an error if password is invalid`, async () => {
-        
+        const res = await request(server).post(`/api/auth/login`).send(noPass)
+
+        expect(res.status).toBe(400)
+        expect(res.body).toMatchObject({message: `provide a valid username or password`})
     })
 
     test(`[9] resolves in an error if username is not provided`, async () => {
-        
+        const res = await request(server).post(`/api/auth/login`).send(noUsername2)
+
+        expect(res.status).toBe(400)
+        expect(res.body).toMatchObject({message: `provide a valid username or password`})
     })
 
     test(`[10] resolves in an error if password is not provided`, async () => {
-        
+        const res = await request(server).post(`/api/auth/login`).send(noPass2)
+
+        expect(res.status).toBe(400)
+        expect(res.body).toMatchObject({message: `provide a valid username or password`})
     })
 })

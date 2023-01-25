@@ -95,14 +95,6 @@ const invalidPass = {
     password: `12344278`
 }
 
-//No username or passowrd:
-const noUser = {
-    username: ``, 
-    password: ``, 
-}
-
-const noUser2 = {}
-
 //No username:
 const noUsername = {
     username: ``, 
@@ -115,12 +107,12 @@ const noUsername2 = {
 
 //No password:
 const noPass = {
-    username: `Kelly`,
+    username: `testSubject47`,
     password: ``
 }
 
 const noPass2 = {
-    username: `starStruck`,
+    username: `testSubject47`,
 }
 
 module.exports = {
@@ -135,8 +127,6 @@ module.exports = {
     newUserNoDob,
     newUserExistingUn,
     invalidPass,
-    noUser,
-    noUser2,
     noUsername,
     noUsername2,
     noPass,
