@@ -2,53 +2,9 @@ const Users = require(`../users/users-model`)
 const db = require(`../../data/dbConfig`)
 const request = require(`supertest`)
 const server = require(`../server`)
-
-//username already exists:
-const existingUser = {
-    username: `testSubject47`,
-    password: `bardic`
-}
-
-//New user:
-const newUser = {
-    username: `starStruck`,
-    password: `J#g9ujd`
-}
-
-//Invalid password:
-const invalidPass = {
-    username: `testSubject47`,
-    password: `12344278`
-}
-
-//No username or passowrd:
-const noUser = {
-    username: ``, 
-    password: ``, 
-}
-
-const noUser2 = {}
-
-//No username:
-const noUsername = {
-    username: ``, 
-    password: `123456`
-}
-
-const noUsername2 = {
-    password: `uF93fh!`
-}
-
-//No password:
-const noPass = {
-    username: `Kelly`,
-    password: ``
-}
-
-const noPass2 = {
-    username: `starStruck`,
-}
-
+const {existingUser, newUser, newUserNoUn, newUserNoPw, newUserNoFirstName, 
+        newUserNoLastName, newUserNoEmail, newUserTermsFalse, newUserNoDob, newUserExistingUn
+        invalidPass, noUser, noUser2, noUsername, noUsername2, noPass, noPass2} = require(`./auth-test-variables`)
 
 beforeAll(async () => {
     await db.migrate.rollback()
@@ -72,29 +28,75 @@ describe(`sanity test - [GET] /`, () => {
 
 describe(`[POST] /api/auth/register`, () => {
     test(`[1] creates a new user`, async () => {
+        const res = await request(server).post(`/api/auth/register`).send(newUser)
 
+        expect(res.status).toBe(201)
+        expect(res.body).toMatchObject({username: newUser.username})
     })
 
     test(`[2] created user is in db`, async () => {
+        await request(server).post(`/api/auth/register`).send(newUser)
+        const updatedDb = await db(`users`)
 
-    })
+        expect(updatedDb).toHaveLength(2)
+    })  
 
     test(`[3] resolves in an error if username exists`, async () => {
-        
+        const res = await request(server).post(`/api/auth/register`).send(newUserExistingUn)
+
+        expect(res.status).toBe(422)
+        expect(res.body).toMatchObject({message: `username taken`})
     })
 
     test(`[4] resolves in an error if no username is provided`, async () => {
-        
+        const res = await request(server).post(`/api/auth/register`).send(newUserNoUn)
+        expect(res.status).toBe(400)
+        expect(res.body).toMatchObject({message: `provide a username`})
     })
 
     test(`[5] resolves in an error if no password is provided`, async () => {
-        
+        const res = await request(server).post(`/api/auth/register`).send(newUserNoPw)
+        expect(res.status).toBe(400)
+        expect(res.body).toMatchObject({message: `provide a password`})
+    })
+
+    test(`[6] resolves in an error if no first name is provided`, async () => {
+        const res = await request(server).post(`/api/auth/register`).send(newUserNoFirstName)
+        expect(res.status).toBe(400)
+        expect(res.body).toMatchObject({message: `provide a first name`})
+    })
+
+    test(`[7] resolves in an error if no last name is provided`, async () => {
+        const res = await request(server).post(`/api/auth/register`).send(newUserNoLastName)
+        expect(res.status).toBe(400)
+        expect(res.body).toMatchObject({message: `provide a last name`})
+    })
+
+    test(`[8 resolves in an error if no email is provided`, async () => {
+        const res = await request(server).post(`/api/auth/register`).send(newUserNoEmail)
+        expect(res.status).toBe(400)
+        expect(res.body).toMatchObject({message: `provide an email `})
+    })
+
+    test(`[9] resolves in an error if terms (boolean) is false`, async () => {
+        const res = await request(server).post(`/api/auth/register`).send(newUserTermsFalse)
+        expect(res.status).toBe(400)
+        expect(res.body).toMatchObject({message: `you need to agree to terms to proceed`})
+    })
+
+    test(`[10] allows new user to be created w/o date of birth`, async () => {
+        const res = await request(server).post(`/api/auth/register`).send(newUserNoDob)
+        expect(res.status).toBe(201)
+        expect(res.body).toMatchObject({username: newUserNoDob.username})
+
+        const updatedDb = await db(`Users`)
+        expect(updatedDb).toHaveLength(2)
     })
 })
 
 describe(`[POST] /api/auth/login`, () => {
-    test(`[6] logs in user (returns user info)`, async () => {
-        
+    test(`[6] logs in user (returns user info)`, async () => {       
+
     })
 
     test(`[7] resolves in an error if username is invalid`, async () => {
