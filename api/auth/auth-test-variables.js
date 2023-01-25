@@ -95,6 +95,11 @@ const invalidPass = {
     password: `12344278`
 }
 
+const invalidUsername = {
+    username: `testSubject`,
+    password: `bardic`
+}
+
 //No username:
 const noUsername = {
     username: ``, 
