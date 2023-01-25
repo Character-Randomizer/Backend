@@ -16,7 +16,7 @@ exports.seed = async function(knex) {
     password: hash,
     email: `test47@gmail.com`, 
     terms: true, 
-    dob: 09061647
+    dob: 9061647
   },
   ]);
 };
