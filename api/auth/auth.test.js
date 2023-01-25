@@ -8,7 +8,7 @@ const {
         newUserTermsFalse, newUserNoDob, newUserExistingUn, 
         invalidPass, invalidUsername, noUsername, noUsername2, 
         noPass, noPass2
-    } = require(`./auth-test-variables`)
+    } = require(`../testing-variables`)
 
 beforeAll(async () => {
     await db.migrate.rollback()
@@ -100,7 +100,10 @@ describe(`[POST] /api/auth/register`, () => {
 
 describe(`[POST] /api/auth/login`, () => {
     test(`[6] logs in user (returns user info)`, async () => {       
-        const res = await request(server).post(`/api/auth/login`).send(existingUser)
+        const res = await request(server).post(`/api/auth/login`).send({
+            username: existingUser.username,
+            password: existingUser.password
+    })
 
         expect(res.status).toBe(200)
         expect(res.body).toMatchObject({username: existingUser.username})
