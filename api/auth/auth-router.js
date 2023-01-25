@@ -1,21 +1,13 @@
-//*****  UPDATE BRANCH TO INCLUDE CHANGES MADE AFTER CREATING THIS BRANCH *****//
-
-
 const router = require(`express`).Router()
-const {JWT_SECRET, BCRYPT_ROUNDS} = require(`./secrets`)
+const { JWT_SECRET, BCRYPT_ROUNDS } = require(`./secrets`)
 const jwt = require(`jsonwebtoken`)
 const bcrypt = require(`bcryptjs`)
 //won't work until I make the below file
 const Users = require(`../users/users-model`)
+const { checkRegisterBody, checkUnFree, checkUnValid } = require("./auth-middleware")
 
 
-//Middleware to make:
-    //validate password length/strength
-    //validate username does not exist (register)/exists (login) in db
-
-
-
-router.post(`/register`, (req, res) => {
+router.post(`/register`, checkRegisterBody, checkUnFree, (req, res) => {
     let user = req.body
 
     const hash = bcrypt.hashSync(user.password, BCRYPT_ROUNDS)
@@ -30,7 +22,7 @@ router.post(`/register`, (req, res) => {
         })
 })
 
-router.post(`/login`, (req, res) => {
+router.post(`/login`, checkUnValid, (req, res) => {
     let { username, password } = req.body
 
     Users.findBy({ username })
