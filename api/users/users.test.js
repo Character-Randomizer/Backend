@@ -57,7 +57,7 @@ describe(`users model is working properly`, () => {
         expect(res.body).toMatchObject(deletedUser)
     })
 
-    test(`[6] updateUser() resolves to updated breed`, async () => {
+    test(`[6] updateUser() resolves to updated user`, async () => {
         const updatedUser = await Users.updateUser(1, updateUser)
 
         expect(updatedUser).toMatchObject({ 
@@ -67,7 +67,7 @@ describe(`users model is working properly`, () => {
         })
     })
 
-    test(`[7] updateUser() updates the breed in the db`, async () => {
+    test(`[7] updateUser() updates the user in the db`, async () => {
         const updatedUser = await Users.updateUser(1, updateUser)
         const updatedDb = await db(`users`)
 
