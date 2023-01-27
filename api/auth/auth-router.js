@@ -4,10 +4,11 @@ const jwt = require(`jsonwebtoken`)
 const bcrypt = require(`bcryptjs`)
 //won't work until I make the below file
 const Users = require(`../users/users-model`)
-const { checkRegisterBody, checkUnFree, checkUnValid } = require("./auth-middleware")
+const { checkRegisterBody, checkUsernameFree, checkLoginBody, checkUsernameValid } = require("./auth-middleware")
+const { buildToken } = require(`./auth-helper`)
 
 
-router.post(`/register`, checkRegisterBody, checkUnFree, (req, res) => {
+router.post(`/register`, checkRegisterBody, checkUsernameFree, (req, res) => {
     let user = req.body
 
     const hash = bcrypt.hashSync(user.password, BCRYPT_ROUNDS)
@@ -15,16 +16,25 @@ router.post(`/register`, checkRegisterBody, checkUnFree, (req, res) => {
 
     Users.add(user)
         .then(saveUser => {
-            res.status(201).json(saveUser)
+            const token = buildToken(user)
+
+            res.status(201).json({
+                user: saveUser,
+                token
+            })
         })
         .catch(err => {
-            console.log(`Error occurred in auth-router /register:`, err)
+            res.status(500).json({
+                message: `Occurred in auth-router /register`,
+                error: err
         })
+    })
 })
 
-router.post(`/login`, checkUnValid, (req, res) => {
+router.post(`/login`, checkLoginBody, checkUsernameValid, (req, res) => {
     let { username, password } = req.body
 
+    //not sure if I need the middleware checkUsernameValid since the below code is also checking if there is an user:
     Users.findBy({ username })
         .then(user => {
             if(user && bcrypt.compareSync(password, user.password)){
@@ -43,17 +53,8 @@ router.post(`/login`, checkUnValid, (req, res) => {
         })
         .catch(err => {
             res.status(500).json({
-                message: `Error occurred in auth-router /login: ${err}`
+                message: `Occurred in auth-router /login`,
+                error: err
             })
         })
 })
-
-const buildToken = user => {
-    const payload = {
-        subject: user.user_id,
-        username: user.username,
-        expiresIn: `1d`
-    }
-
-    return jwt.sign(payload, JWT_SECRET)
-}

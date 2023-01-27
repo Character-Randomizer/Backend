@@ -23,8 +23,6 @@ describe(`sanity test - [GET] /`, () => {
     test(`server is running`, async () => {
         const res = await request(server).get(`/`)
 
-        console.log(`Test Res:`, res.status)
-
         expect(res.status).toBe(200)
         expect(res.body).toMatchObject({message: `API is up and running!`})
     })

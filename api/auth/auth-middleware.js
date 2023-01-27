@@ -2,7 +2,8 @@ const Users = require(`../users/users-model`)
 const { JWT_SECRET } = require(`./secrets`)
 const jwt = require(`jsonwebtoken`)
 
-function checkUnFree(req, res, next){
+
+function checkUsernameFree(req, res, next){
     let { username } = req.body
 
     if(username === undefined){
@@ -18,7 +19,7 @@ function checkUnFree(req, res, next){
 
     Users.findBy({username: username})
         .then(user => {
-            if(user === undefined || !user.length === undefined){
+            if(user === undefined){
                 next()
             }
             else{
@@ -26,7 +27,10 @@ function checkUnFree(req, res, next){
             }
         })
         .catch(err => {
-            return res.status(500).json({message: `Error occurred in auth middleware for free username: ${err}`})
+            return res.status(500).json({
+                message: `Error occurred in auth middleware for free username`,
+                error: err
+            })
         })
 }
 
@@ -34,30 +38,37 @@ function checkRegisterBody(req, res, next){
     const { username, password, email, 
             terms, first_name, last_name } = req.body
 
-    if(!username){
-        return res.status(400).json({message: `username required`})
-    }
-    else if(!password){
-        return res.status(400).json({message: `password required`})
-    }
-    else if(!email){
-        return res.status(400).json({message: `email required`})
-    }
-    else if(!first_name){
-        return res.status(400).json({message: `first name required`})
-    }
-    else if(!last_name){
-        return res.status(400).json({message: `last name required`})
-    }
-    else if(terms === false){
-        return res.status(400).json({message: `agree to terms to proceed`})
+    if(Boolean(
+        username &&
+        password &&
+        email &&
+        first_name &&
+        last_name &&
+        terms
+    )){
+        next()
     }
     else{
-        next()
+        return res.status(400).json({message: `user form not valid`})
     }
 }
 
-function checkUnValid(req, res, next){
+function checkLoginBody(req, res, next){
+    const { username, password } = req.body
+
+    if(Boolean(
+        username &&
+        password
+    )){
+        next()
+    }
+    else{
+        return res.status(400).json({message: `Invalid credentials`})
+    }
+}
+
+//Do I need this function b/c in the router I am also checking if the username is in the db.
+function checkUsernameValid(req, res, next){
     const { username } = req.body
 
     Users.findBy({username: username})
@@ -70,11 +81,14 @@ function checkUnValid(req, res, next){
             }
         })
         .catch(err => {
-            return res.status(500).json({message: `Error occurred in auth middleware for valid username: ${err}`})
+            return res.status(500).json({
+                message: `Occurred in auth middleware for valid username`,
+                error: err
+            })
         })
 }
 
-function userAuth(req, res, next){
+function tokenValidation(req, res, next){
     const token = req.headers.authorization
 
     if(!token || token === undefined){
@@ -97,8 +111,9 @@ function userAuth(req, res, next){
 
 
 module.exports = {
-    checkUnFree,
+    checkUsernameFree,
     checkRegisterBody,
-    checkUnValid,
-    userAuth
+    checkUsernameValid,
+    tokenValidation,
+    checkLoginBody
 }
