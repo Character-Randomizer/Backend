@@ -13,7 +13,7 @@ router.post(`/register`, checkRegisterBody, checkUnFree, (req, res) => {
     const hash = bcrypt.hashSync(user.password, BCRYPT_ROUNDS)
     user.password = hash
 
-    Users.add(user)
+    Users.addUser(user)
         .then(saveUser => {
             res.status(201).json(saveUser)
         })

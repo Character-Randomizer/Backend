@@ -4,7 +4,6 @@ const existingUser = {
     first_name: 'Testy', 
     last_name: `Subject`, 
     username: `testSubject47`, 
-    password: hash,
     email: `test47@gmail.com`, 
     terms: true, 
     dob: 9061647

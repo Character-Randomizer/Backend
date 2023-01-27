@@ -74,39 +74,94 @@ describe(`users model is working properly`, () => {
         expect(updatedDb).toHaveLength(1)
         expect(updatedDb).toEqual(
             expect.arrayContaining([
-                expect.objectContaining({
-                    user_id: 1, 
-                    first_name: 'Testy', 
-                    last_name: `Subject`, 
-                    username: `testy47`, 
-                    password: hash,
-                    email: `testSubject47@gmail.com`, 
-                    terms: true, 
-                    dob: 9061647
-                })
+                expect.objectContaining(
+                   updatedUser
+                )
             ])
         )
     })
 }) 
 
 describe(`users router is working properly`, () => {
-    test(`[8]`, async () => {
+    test(`[8] [GET] '/' gets all users from db`, async () => {
+        const users = await request(server).get(`/api/users`)
 
+        expect(users.body).toHaveLength(1)
     })
 
-    test(`[]`, async () => {
-        
+    test(`[9] [GET] '/:id' gets an user from db with given id`, async () => {
+        const getUser = await request(server).get(`/api/users/1`)
+
+        expect(getUser.status).toBe(200)
+        expect(getUser.body).toMatchObject(existingUser)
     })
 
-    test(`[]`, async () => {
-        
+    test(`[10] [GET] '/:id' throws an error if id doesn't exist`, async () => {
+        const id = 100
+        const getUser = await request(server).get(`/api/users/${id}`)
+
+        expect(getUser.status).toBe(404)
+        expect(getUser.body).toMatchObject({message: `could not retrieve user with id: ${id}`})
     })
 
-    test(`[]`, async () => {
-        
+    test(`[11] [PUT] '/:id' updates user with id`, async () => {
+        const updatedUser = await request(server).put(`/api/users/1`).send(updateUser)
+
+        expect(updatedUser.status).toBe(200)
+        expect(updatedUser.body).toMatchObject({
+            ...existingUser, 
+            existingUser,
+            username: updateUser.username,
+            email: updateUser.email
+        })
     })
 
-    test(`[]`, async () => {
-        
+    test(`[12] [PUT] '/:id' updates db with id`, async () => {
+        const updatedUser = await request(server).put(`/api/users/1`).send(updateUser)
+        const updatedDb = await db(`Users`)
+
+        expect(updatedDb).toEqual(
+            expect.arrayContaining([
+                expect.objectContaining(
+                   updatedUser
+                )
+            ])
+        )
+    })
+
+    test(`[13] [PUT] '/:id' throws an error if id doesn't exist`, async () => {
+        const id = 100
+        const updatedUser = await request(server).put(`/api/users/${id}`).send(updateUser)
+
+        expect(updatedUser.status).toBe(404)
+        expect(updatedUser.body).toMatchObject({
+            message: `could not retrive user with id: ${id}`
+        })
+    })
+
+    test(`[12] [DEL] '/:id' deletes the user with the id`, async () => {
+        const deletedUser = await request(server).del(`/api/users/1`)
+
+        expect(deletedUser.status).toBe(200)
+        expect(deletedUser.body).toMatchObject({
+            username: existingUser.username
+        })
+    })
+
+    test(`[13] [PUT] '/:id' updates db with deleted user`, async () => {
+        await request(server).del(`/api/users/1`)
+        const updatedDb = await db(`Users`)
+
+        expect(updatedDb).toHaveLength(0)
+    })
+
+    test(`[14] [DEL] '/:id' throws an error if id doesn't exist`, async () => {
+        const id = 100
+        const deletedUser = await request(server).del(`/api/users/${id}`)
+
+        expect(deletedUser.status).toBe(404)
+        expect(deletedUser.body).toMatchObject({
+            message: `could not find user with id: ${id} to delete`
+        })
     })
 })
