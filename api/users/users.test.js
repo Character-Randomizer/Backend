@@ -17,7 +17,7 @@ test(`sanity: enivronment is testing`, () => {
     expect(process.env.NODE_ENV).toBe(`testing`)
 })
 
-describe.only(`users model is working properly`, () => {
+describe(`users model is working properly`, () => {
     test(`[1] findAll() gets all users`, async () => {
         const res = await Users.findAll()
 
@@ -55,6 +55,18 @@ describe.only(`users model is working properly`, () => {
         expect(res).toMatchObject(deletedUser)
     })
 
+    test(`[5.1] removeUser() deletes the user fron the db`, async () => {
+        const user = await Users.addUser(newUser)
+        let updatedDb = await db(`Users`)
+        
+        expect(updatedDb).toHaveLength(2)
+
+        await Users.removeUser({user_id: user.user_id})
+        updatedDb = await db(`Users`)
+
+        expect(updatedDb).toHaveLength(1)
+    })
+
     test(`[6] updateUser() resolves to updated user`, async () => {
         const updatedUser = await Users.updateUser({user_id: 1, changes: userUpdate})
 
@@ -84,6 +96,7 @@ describe(`users router is working properly`, () => {
     test(`[8] [GET] '/' gets all users from db`, async () => {
         const users = await request(server).get(`/api/users`)
 
+        expect(users.status).toBe(200)
         expect(users.body).toHaveLength(1)
     })
 
@@ -103,57 +116,55 @@ describe(`users router is working properly`, () => {
     })
 
     test(`[11] [PUT] '/:id' updates user with id`, async () => {
-        const updatedUser = await request(server).put(`/api/users/1`).send(updateUser)
+        const id = 1
+        const updatedUser = await request(server).put(`/api/users/${id}`).send({changes: userUpdate})
 
         expect(updatedUser.status).toBe(200)
         expect(updatedUser.body).toMatchObject({
             ...existingUser, 
-            existingUser,
-            username: updateUser.username,
-            email: updateUser.email
+            username: userUpdate.username,
+            email: userUpdate.email
         })
     })
 
     test(`[12] [PUT] '/:id' updates db with id`, async () => {
-        const updatedUser = await request(server).put(`/api/users/1`).send(updateUser)
+        const id = 1
+        const updatedUser = await request(server).put(`/api/users/${id}`).send({changes: userUpdate})
         const updatedDb = await db(`Users`)
 
-        expect(updatedDb).toEqual(
-            expect.arrayContaining([
-                expect.objectContaining(
-                   updatedUser
-                )
-            ])
-        )
+        expect(updatedDb[0]).toMatchObject(updatedUser.body)
     })
 
     test(`[13] [PUT] '/:id' throws an error if id doesn't exist`, async () => {
         const id = 100
-        const updatedUser = await request(server).put(`/api/users/${id}`).send(updateUser)
+        const updatedUser = await request(server).put(`/api/users/${id}`).send({changes: userUpdate})
 
         expect(updatedUser.status).toBe(404)
         expect(updatedUser.body).toMatchObject({
-            message: `could not retrive user with id: ${id}`
+            message: `could not retrieve user with id: ${id}`
         })
     })
 
-    test(`[12] [DEL] '/:id' deletes the user with the id`, async () => {
-        const deletedUser = await request(server).del(`/api/users/1`)
+    test(`[14] [DEL] '/:id' deletes the user with the id`, async () => {
+        const user = await Users.addUser(newUser)
+        await db(`Users`)
+        const deletedUser = await request(server).delete(`/api/users/${user.user_id}`)
 
         expect(deletedUser.status).toBe(200)
-        expect(deletedUser.body).toMatchObject({
-            username: existingUser.username
-        })
+        expect(deletedUser.body).toMatchObject(user)
     })
 
-    test(`[13] [PUT] '/:id' updates db with deleted user`, async () => {
-        await request(server).del(`/api/users/1`)
-        const updatedDb = await db(`Users`)
+    test(`[15] [DEL] '/:id' updates db with deleted user`, async () => {
+        const user = await Users.addUser(newUser)
+        let updatedDb = await db(`Users`)
+        expect(updatedDb).toHaveLength(2)
 
-        expect(updatedDb).toHaveLength(0)
+        await request(server).del(`/api/users/${user.user_id}`)
+        updatedDb = await db(`Users`)
+        expect(updatedDb).toHaveLength(1)
     })
 
-    test(`[14] [DEL] '/:id' throws an error if id doesn't exist`, async () => {
+    test(`[16] [DEL] '/:id' throws an error if id doesn't exist`, async () => {
         const id = 100
         const deletedUser = await request(server).del(`/api/users/${id}`)
 
