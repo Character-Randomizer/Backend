@@ -2,13 +2,14 @@ const router = require(`express`).Router()
 const { JWT_SECRET, BCRYPT_ROUNDS } = require(`./secrets`)
 const jwt = require(`jsonwebtoken`)
 const bcrypt = require(`bcryptjs`)
-//won't work until I make the below file
 const Users = require(`../users/users-model`)
 const { checkRegisterBody, checkUnFree, checkUnValid } = require("./auth-middleware")
 
 
 router.post(`/register`, checkRegisterBody, checkUnFree, (req, res) => {
-    let user = req.body
+    let { user } = req.body
+
+    console.log(`ROUTER USER:`, user)
 
     const hash = bcrypt.hashSync(user.password, BCRYPT_ROUNDS)
     user.password = hash

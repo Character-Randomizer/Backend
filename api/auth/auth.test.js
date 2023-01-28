@@ -1,4 +1,4 @@
-const Users = require(`../users/users-model`)
+// const Users = require(`../users/users-model`)
 const db = require(`../../data/dbConfig`)
 const request = require(`supertest`)
 const server = require(`../server`)
@@ -23,8 +23,6 @@ describe(`sanity test - [GET] /`, () => {
     test(`server is running`, async () => {
         const res = await request(server).get(`/`)
 
-        console.log(`Test Res:`, res.status)
-
         expect(res.status).toBe(200)
         expect(res.body).toMatchObject({message: `API is up and running!`})
     })
@@ -34,13 +32,16 @@ describe(`[POST] /api/auth/register`, () => {
     test(`[1] creates a new user`, async () => {
         const res = await request(server).post(`/api/auth/register`).send(newUser)
 
+        console.log(`STATUS:`, res.status)
+        console.log(`BODY:`, res.body)
+
         expect(res.status).toBe(201)
         expect(res.body).toMatchObject({username: newUser.username})
     })
 
     test(`[2] created user is in db`, async () => {
         await request(server).post(`/api/auth/register`).send(newUser)
-        const updatedDb = await db(`users`)
+        const updatedDb = await db(`Users`)
 
         expect(updatedDb).toHaveLength(2)
     })  
