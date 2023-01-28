@@ -1,6 +1,6 @@
  exports.up = function(knex) {
     return knex.schema
-        .createTable(`races`, race => {
+        .createTable(`Races`, race => {
             race.increments(`race_id`)
             race.string(`race_name`)
                 .unique()
@@ -11,5 +11,5 @@
  
 exports.down = function(knex) {
     return knex.schema 
-        .dropTableIfExists(`races`)
+        .dropTableIfExists(`Races`)
 };

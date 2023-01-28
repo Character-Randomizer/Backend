@@ -1,12 +1,12 @@
 exports.up = function(knex) {
     return knex.schema
-      .createTable(`characters`, char => {
+      .createTable(`Characters`, char => {
           char.increments(`char_id`)
           char.integer(`user_id`)
               .unsigned()
               .notNullable()
               .references(`user_id`)
-              .inTable(`users`)
+              .inTable(`Users`)
               .onUpdate(`CASCADE`)
               .onDelete(`RESTRICT`)
           char.string(`first_name`)
@@ -19,27 +19,27 @@ exports.up = function(knex) {
               .unsigned()
               .notNullable()
               .references(`class_id`)
-              .inTable(`classes`)
+              .inTable(`Classes`)
               .onUpdate(`RESTRICT`)
               .onDelete(`RESTRICT`)
           char.integer(`class_focus_id`)
               .unsigned()
               .references(`class_focus_id`)
-              .inTable(`class_focuses`)
+              .inTable(`Class_focuses`)
               .onUpdate(`RESTRICT`)
               .onDelete(`RESTRICT`)
           char.integer(`alignment_id`)
               .unsigned()
               .notNullable()
               .references(`alignment_id`)
-              .inTable(`alignments`)
+              .inTable(`Alignments`)
               .onUpdate(`RESTRICT`)
               .onDelete(`RESTRICT`)
           char.integer('race_id')
               .unsigned()
               .notNullable()
               .references(`race_id`)
-              .inTable(`races`)
+              .inTable(`Races`)
               .onUpdate(`RESTRICT`)
               .onDelete(`RESTRICT`)
           char.string(`phys_description`, [10000])
@@ -59,7 +59,7 @@ exports.up = function(knex) {
               .unsigned()
               .notNullable()
               .references(`gender_id`)
-              .inTable(`genders`)
+              .inTable(`Genders`)
               .onUpdate(`RESTRICT`)
               .onDelete(`RESTRICT`)
           char.string(`height`)
@@ -68,7 +68,7 @@ exports.up = function(knex) {
           char.integer(`background_id`)
               .unsigned()
               .references(`background_id`)
-              .inTable(`backgrounds`)
+              .inTable(`Backgrounds`)
               .onUpdate(`RESTRICT`)
               .onDelete(`RESTRICT`)
           })
@@ -77,6 +77,6 @@ exports.up = function(knex) {
    
   exports.down = function(knex) {
     return knex.schema   
-      .dropTableIfExists(`characters`)
+      .dropTableIfExists(`Characters`)
   };
   

@@ -57,3 +57,5 @@ const buildToken = user => {
 
     return jwt.sign(payload, JWT_SECRET)
 }
+
+module.exports = router

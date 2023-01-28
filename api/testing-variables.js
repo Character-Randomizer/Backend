@@ -10,7 +10,7 @@ const existingUser = {
 }
 
 //Updated user:
-const updateUser = {
+const userUpdate = {
     username: `testy47`,
     email: `testSubject47@gmail.com`
 }
@@ -21,7 +21,7 @@ const newUser = {
     password: `J#g9ujd`,
     first_name: `Corey`,
     last_name: `Star`,
-    email: `starStruck55@gmail.com`,
+    email: `starStruck56@gmail.com`,
     terms: true,
     dob: 10181999
 }
@@ -147,5 +147,5 @@ module.exports = {
     noUsername2,
     noPass,
     noPass2,
-    updateUser
+    userUpdate
 }

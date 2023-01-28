@@ -1,5 +1,5 @@
 exports.seed = async function(knex) {
-  await knex('classes').insert([
+  await knex('Classes').insert([
     {
       class_id: 1, 
       class: 'Artificer',

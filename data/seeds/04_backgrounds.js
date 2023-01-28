@@ -1,7 +1,7 @@
  //Just from the player's handbook and no other source currently
 
  exports.seed = async function(knex) {
-  await knex(`backgrounds`).insert([
+  await knex(`Backgrounds`).insert([
     {
       background_name: `Acolyte`, 
       background_description: `You have spent your life in the service of a temple to a specific god or pantheon of gods. You act as an intermediary between the realm of the holy and the mortal world, performing sacred rites and offering sacrifices in order to conduct worshipers into the presence of the divine. You are not necessarily a cleric — performing sacred rites is not the same thing as channeling divine power.

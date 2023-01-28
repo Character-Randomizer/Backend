@@ -1,6 +1,6 @@
  exports.up = function(knex) {
     return knex.schema
-        .createTable('alignments', align => {
+        .createTable('Alignments', align => {
             align.increments(`alignment_id`)
             align.string(`alignment`)
                 .notNullable()
@@ -13,5 +13,5 @@
  
 exports.down = function(knex) {
     return knex.schema 
-        .dropTableIfExists(`alignments`)
+        .dropTableIfExists(`Alignments`)
 };
