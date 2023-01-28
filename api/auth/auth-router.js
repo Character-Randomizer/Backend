@@ -3,60 +3,48 @@ const { JWT_SECRET, BCRYPT_ROUNDS } = require(`./secrets`)
 const jwt = require(`jsonwebtoken`)
 const bcrypt = require(`bcryptjs`)
 const Users = require(`../users/users-model`)
-const { checkRegisterBody, checkUnFree, checkUnValid } = require("./auth-middleware")
+const { checkRegisterBody, checkLoginBody } = require("./auth-middleware")
+const { buildToken } = require(`./auth-helper`)
 
 
-router.post(`/register`, checkRegisterBody, checkUnFree, (req, res) => {
-    let { user } = req.body
-
-    console.log(`ROUTER USER:`, user)
+router.post(`/register`, checkRegisterBody, (req, res) => {
+    let user = req.body
 
     const hash = bcrypt.hashSync(user.password, BCRYPT_ROUNDS)
     user.password = hash
 
     Users.addUser(user)
         .then(saveUser => {
-            res.status(201).json(saveUser)
-        })
-        .catch(err => {
-            console.log(`Error occurred in auth-router /register:`, err)
-        })
-})
+            const token = buildToken(user)
 
-router.post(`/login`, checkUnValid, (req, res) => {
-    let { username, password } = req.body
-
-    Users.findBy({ username })
-        .then(user => {
-            if(user && bcrypt.compareSync(password, user.password)){
-                const token = buildToken(user)
-
-                res.status(200).json({
-                    message: `Welcome back ${user.username}`,
-                    token
-                })
-            }
-            else{
-                res.status(401).json({ 
-                    message: `Invalid Credentials`
-                })
-            }
+            res.status(201).json({
+                user: saveUser,
+                token
+            })
         })
         .catch(err => {
             res.status(500).json({
-                message: `Error occurred in auth-router /login: ${err}`
-            })
+                message: `Occurred in auth-router /register`,
+                error: err
         })
+    })
 })
 
-const buildToken = user => {
-    const payload = {
-        subject: user.user_id,
-        username: user.username,
-        expiresIn: `1d`
+router.post(`/login`, checkLoginBody, (req, res) => {
+    let { username, password } = req.body
+    let existingUser = req.body
+
+    if(existingUser && bcrypt.compareSync(password, existingUser.password)){
+        const token = buildToken(existingUser)
+
+        res.status(200).json({
+            message: `Welcome back ${username}`,
+            token
+        })
+     }
+    else{
+        res.status(401).json({ 
+            message: `Invalid Credentials`
+        })
     }
-
-    return jwt.sign(payload, JWT_SECRET)
-}
-
-module.exports = router
+})
