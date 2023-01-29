@@ -96,7 +96,7 @@ const newUserExistingUn = {
     first_name: `Corey`,
     last_name: `Star`,
     email: `starStruck55@gmail.com`,
-    terms: false,
+    terms: true,
     dob: 10181999
 }
 

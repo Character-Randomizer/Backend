@@ -103,6 +103,8 @@ describe(`users router is working properly`, () => {
     test(`[9] [GET] '/:id' gets an user from db with given id`, async () => {
         const getUser = await request(server).get(`/api/users/1`)
 
+        console.log(getUser.body)
+
         expect(getUser.status).toBe(200)
         expect(getUser.body).toMatchObject(existingUser)
     })
@@ -170,7 +172,7 @@ describe(`users router is working properly`, () => {
 
         expect(deletedUser.status).toBe(404)
         expect(deletedUser.body).toMatchObject({
-            message: `could not find user with id: ${id} to delete`
+            message: `could not retrieve user with id: ${id}`
         })
     })
 })

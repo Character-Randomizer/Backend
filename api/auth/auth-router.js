@@ -4,7 +4,7 @@ const jwt = require(`jsonwebtoken`)
 const bcrypt = require(`bcryptjs`)
 const Users = require(`../users/users-model`)
 const { checkRegisterBody, checkLoginBody } = require("./auth-middleware")
-const { buildToken } = require(`./auth-helper`)
+const buildToken = require(`./auth-helper`)
 
 
 router.post(`/register`, checkRegisterBody, (req, res) => {
@@ -15,7 +15,7 @@ router.post(`/register`, checkRegisterBody, (req, res) => {
 
     Users.addUser(user)
         .then(saveUser => {
-            const token = buildToken(user)
+            const token = buildToken.saveUser
 
             res.status(201).json({
                 user: saveUser,
@@ -24,7 +24,7 @@ router.post(`/register`, checkRegisterBody, (req, res) => {
         })
         .catch(err => {
             res.status(500).json({
-                message: `Occurred in auth-router /register`,
+                message: `Occurred in auth-router '/register'`,
                 error: err
         })
     })
@@ -33,6 +33,7 @@ router.post(`/register`, checkRegisterBody, (req, res) => {
 router.post(`/login`, checkLoginBody, (req, res) => {
     let { username, password } = req.body
     let existingUser = req.body
+    console.log(req.body)
 
     if(existingUser && bcrypt.compareSync(password, existingUser.password)){
         const token = buildToken(existingUser)
@@ -48,3 +49,5 @@ router.post(`/login`, checkLoginBody, (req, res) => {
         })
     }
 })
+
+module.exports = router
