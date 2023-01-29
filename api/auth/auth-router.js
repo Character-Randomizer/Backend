@@ -1,9 +1,9 @@
 const router = require(`express`).Router()
-const { BCRYPT_ROUNDS } = require(`./secrets`) 
+const { BCRYPT_ROUNDS, JWT_SECRET } = require(`./secrets`) 
+const jwt = require(`jsonwebtoken`)
 const bcrypt = require(`bcryptjs`)
 const Users = require(`../users/users-model`)
 const { checkRegisterBody, checkLoginBody } = require("./auth-middleware")
-const buildToken = require(`./auth-helper`)
 
 
 router.post(`/register`, checkRegisterBody, (req, res) => {
@@ -14,7 +14,7 @@ router.post(`/register`, checkRegisterBody, (req, res) => {
 
     Users.addUser(user)
         .then(async saveUser => {
-            const token = await buildToken.saveUser
+            const token = await buildToken(saveUser)
 
             res.status(201).json({
                 user: saveUser,
@@ -22,9 +22,10 @@ router.post(`/register`, checkRegisterBody, (req, res) => {
             })
         })
         .catch(err => {
+            console.log(`ERROR:`, err)
+
             res.status(500).json({
-                message: `Occurred in auth-router '/register'`,
-                error: err
+                message: `Occurred in auth-router '/register'`
         })
     })
 })
@@ -34,7 +35,7 @@ router.post(`/login`, checkLoginBody, async (req, res) => {
     let { existingUser } = req.body
 
     if(bcrypt.compareSync(password, existingUser.password)){
-        const token = await buildToken.existingUser
+        const token = await buildToken(existingUser)
 
         res.status(200).json({
             message: `Welcome back ${username}`,
@@ -47,5 +48,18 @@ router.post(`/login`, checkLoginBody, async (req, res) => {
         })
     }
 })
+
+// When this is in a seperate file, the code does not register that it is a function for some reason. 
+// I have tried different import/export options and none have worked thus far.
+// The token function only works when it is in the file where it is invoked
+const buildToken = user => {
+    const payload = {
+        subject: user.user_id,
+        username: user.username,
+        expiresIn: `1d`
+    }
+
+    return jwt.sign(payload, JWT_SECRET)
+}
 
 module.exports = router

@@ -33,7 +33,14 @@ describe(`[POST] /api/auth/register`, () => {
         const res = await request(server).post(`/api/auth/register`).send(newUser)
 
         expect(res.status).toBe(201)
-        expect(res.body.user).toMatchObject({username: newUser.username})
+        expect(res.body).toEqual(
+            expect.objectContaining({
+                token: res.body.token,
+                user: expect.objectContaining({
+                    username: newUser.username
+                })
+            })
+        )
     })
 
     test(`[2] created user is in db`, async () => {
@@ -113,7 +120,8 @@ describe(`[POST] /api/auth/login`, () => {
 
         expect(res.status).toBe(200)
         expect(res.body).toMatchObject({
-            message: `Welcome back ${newUser.username}`
+            message: `Welcome back ${newUser.username}`,
+            token: res.body.token
         })
     })
 

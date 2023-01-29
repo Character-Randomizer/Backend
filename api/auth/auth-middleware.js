@@ -83,8 +83,7 @@ function checkLoginBody(req, res, next){
                 console.log(`ERROR:`, err)
 
                 return res.status(500).json({
-                    message: `Occurred in auth middleware for checkLoginBody`,
-                    error: err
+                    message: `Occurred in auth middleware for checkLoginBody`
                 })
             })
     }

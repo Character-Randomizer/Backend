@@ -11,8 +11,8 @@ router.get(`/`, (req, res) => {
             console.log(`ERROR:`, err)
 
             return res.status(500).json({
-                message: `Error occurred in users router [GET] '/'`}
-                )
+                message: `Error occurred in users router [GET] '/'`
+            })
         })
 })
 
@@ -27,8 +27,7 @@ router.get(`/:id`, checkUserId, (req, res) => {
             console.log(`ERROR:`, err)
             
             res.status(500).json({
-                message: `Error occured in users router [GET] '/id'`,
-                error: err
+                message: `Error occured in users router [GET] '/id'`
             })
         })
 })
