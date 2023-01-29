@@ -8,8 +8,10 @@ router.get(`/`, (req, res) => {
             res.json(users)
         })
         .catch(err => {
+            console.log(`ERROR:`, err)
+
             return res.status(500).json({
-                message: `Error occurred in users router [GET] '/':, ${err}`}
+                message: `Error occurred in users router [GET] '/'`}
                 )
         })
 })
@@ -40,9 +42,10 @@ router.put(`/:id`, checkUserId, (req, res) => {
             res.status(200).json(userUpdated)
         })
         .catch(err => {
+            console.log(`ERROR:`, err)
+
             res.status(500).json({
-                message: `Error occurred in users router [PUT] '/:id'`,
-                error: err
+                message: `Error occurred in users router [PUT] '/:id'`
             })
         })
 })
@@ -55,9 +58,10 @@ router.delete(`/:id`, checkUserId, (req, res) => {
             res.status(200).json(deletedUser)
         })
         .catch(err => {
+            console.log(`ERROR:`, err)
+            
             res.status(500).json({
-                message: `Error ocured in users router [DEL] '/:id'`, 
-                error: err
+                message: `Error ocured in users router [DEL] '/:id'`
             })
         })
 })

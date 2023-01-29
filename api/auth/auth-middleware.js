@@ -37,9 +37,10 @@ function checkRegisterBody(req, res, next){
                 }
             })
             .catch(err => {
+                console.log(`ERROR:`, err)
+                
                 return res.status(500).json({
-                    message: `Error occurred in auth middleware for free username`,
-                    error: err
+                    message: `Error occurred in auth middleware for checkRegisterBody`
                 })
             })
     }
@@ -79,9 +80,10 @@ function checkLoginBody(req, res, next){
                 }
             })
             .catch(err => {
-                console.log(`MIDDLEWARE ERROR:`, err)
+                console.log(`ERROR:`, err)
+
                 return res.status(500).json({
-                    message: `Occurred in auth middleware for valid username`,
+                    message: `Occurred in auth middleware for checkLoginBody`,
                     error: err
                 })
             })

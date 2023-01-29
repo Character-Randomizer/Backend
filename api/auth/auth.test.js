@@ -3,11 +3,11 @@ const db = require(`../../data/dbConfig`)
 const request = require(`supertest`)
 const server = require(`../server`)
 const {
-        existingUser, newUser, newUserNoUn, newUserNoPw, 
+        newUser, newUserNoUn, newUserNoPw, 
         newUserNoFirstName, newUserNoLastName, newUserNoEmail, 
         newUserTermsFalse, newUserNoDob, newUserExistingUn, 
-        invalidPass, invalidUsername, noUsername, noUsername2, 
-        noPass, noPass2
+        invalidPass, invalidUsername, noUsername, 
+        noUsername2, noPass, noPass2
     } = require(`../testing-variables`)
 
 beforeAll(async () => {
@@ -106,7 +106,6 @@ describe(`[POST] /api/auth/register`, () => {
 describe(`[POST] /api/auth/login`, () => {
     test(`[11] logs in user (returns user info)`, async () => {    
         await request(server).post(`/api/auth/register`).send(newUser)
-
         const res = await request(server).post(`/api/auth/login`).send({
             username: newUser.username,
             password: newUser.password,

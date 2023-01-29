@@ -18,8 +18,7 @@ function checkUserId(req, res, next){
             console.log(`ERROR:`, err)
 
             return res.status(500).json({
-                message: `Error occurred in users middleware`,
-                error: err
+                message: `Error occurred in users middleware`
             })
         })
 }

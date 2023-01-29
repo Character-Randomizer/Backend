@@ -48,7 +48,6 @@ describe(`users model is working properly`, () => {
 
     test(`[5] removeUser() deletes the user`, async () => {
         const user = await Users.addUser(newUser)
-        await db(`Users`)
         const deletedUser = await Users.findBy({ user_id: user.user_id })
         const res = await Users.removeUser({user_id: user.user_id})
 
@@ -58,12 +57,10 @@ describe(`users model is working properly`, () => {
     test(`[5.1] removeUser() deletes the user fron the db`, async () => {
         const user = await Users.addUser(newUser)
         let updatedDb = await db(`Users`)
-        
         expect(updatedDb).toHaveLength(2)
 
         await Users.removeUser({user_id: user.user_id})
         updatedDb = await db(`Users`)
-
         expect(updatedDb).toHaveLength(1)
     })
 
@@ -102,8 +99,6 @@ describe(`users router is working properly`, () => {
 
     test(`[9] [GET] '/:id' gets an user from db with given id`, async () => {
         const getUser = await request(server).get(`/api/users/1`)
-
-        console.log(getUser.body)
 
         expect(getUser.status).toBe(200)
         expect(getUser.body).toMatchObject(existingUser)
@@ -149,7 +144,6 @@ describe(`users router is working properly`, () => {
 
     test(`[14] [DEL] '/:id' deletes the user with the id`, async () => {
         const user = await Users.addUser(newUser)
-        await db(`Users`)
         const deletedUser = await request(server).delete(`/api/users/${user.user_id}`)
 
         expect(deletedUser.status).toBe(200)
