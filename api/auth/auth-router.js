@@ -39,7 +39,8 @@ router.post(`/login`, checkLoginBody, async (req, res) => {
 
         res.status(200).json({
             message: `Welcome back ${username}`,
-            token
+            token,
+            user: existingUser
         })
      }
     else{
