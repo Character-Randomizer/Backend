@@ -15,8 +15,8 @@ router.post(`/register`, checkRegisterBody, (req, res) => {
     user.password = hash
 
     Users.add(user)
-        .then(saveUser => {
-            const token = buildToken(user)
+        .then(async saveUser => {
+            const token = await buildToken(user)
 
             res.status(201).json({
                 user: saveUser,
@@ -31,12 +31,12 @@ router.post(`/register`, checkRegisterBody, (req, res) => {
     })
 })
 
-router.post(`/login`, checkLoginBody, (req, res) => {
+router.post(`/login`, checkLoginBody, async (req, res) => {
     let { username, password } = req.body
     let existingUser = req.body
 
     if(existingUser && bcrypt.compareSync(password, existingUser.password)){
-        const token = buildToken(existingUser)
+        const token = await buildToken(existingUser)
 
         res.status(200).json({
             message: `Welcome back ${username}`,
