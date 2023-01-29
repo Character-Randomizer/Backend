@@ -1,6 +1,5 @@
 const router = require(`express`).Router()
-const { JWT_SECRET, BCRYPT_ROUNDS } = require(`./secrets`)
-const jwt = require(`jsonwebtoken`)
+const { BCRYPT_ROUNDS } = require(`./secrets`) 
 const bcrypt = require(`bcryptjs`)
 const Users = require(`../users/users-model`)
 const { checkRegisterBody, checkLoginBody } = require("./auth-middleware")
@@ -32,11 +31,10 @@ router.post(`/register`, checkRegisterBody, (req, res) => {
 
 router.post(`/login`, checkLoginBody, (req, res) => {
     let { username, password } = req.body
-    let existingUser = req.body
-    console.log(req.body)
+    let { existingUser } = req.body
 
-    if(existingUser && bcrypt.compareSync(password, existingUser.password)){
-        const token = buildToken(existingUser)
+    if(bcrypt.compareSync(password, existingUser.password)){
+        const token = buildToken.existingUser
 
         res.status(200).json({
             message: `Welcome back ${username}`,
@@ -45,7 +43,7 @@ router.post(`/login`, checkLoginBody, (req, res) => {
      }
     else{
         res.status(401).json({ 
-            message: `Invalid Credentials`
+            message: `Invalid credentials`
         })
     }
 })

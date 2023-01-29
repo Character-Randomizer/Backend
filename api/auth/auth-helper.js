@@ -5,10 +5,12 @@ const buildToken = user => {
     const payload = {
         subject: user.user_id,
         username: user.username,
-        expiresIn: `1d`
     }
 
-    return jwt.sign(payload, JWT_SECRET)
+    const expires = {
+        expiresIn: `1d`
+    }
+    return jwt.sign(payload, JWT_SECRET, expires)
 }
 
 module.export = buildToken

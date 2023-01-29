@@ -103,56 +103,52 @@ describe(`[POST] /api/auth/register`, () => {
     })
 })
 
-describe.only(`[POST] /api/auth/login`, () => {
-    test.only(`[11] logs in user (returns user info)`, async () => {    
-        const createdUser = await request(server).post(`/api/auth/register`).send(newUser)
-        await db(`Users`)
-
-        console.log(`TEST:`, createdUser.body.user)
+describe(`[POST] /api/auth/login`, () => {
+    test(`[11] logs in user (returns user info)`, async () => {    
+        await request(server).post(`/api/auth/register`).send(newUser)
 
         const res = await request(server).post(`/api/auth/login`).send({
             username: newUser.username,
             password: newUser.password,
         })
 
-    console.log(`TEST`, res.status)
-    console.log(`TEST`, res.body)
-
         expect(res.status).toBe(200)
-        expect(res.body).toMatchObject({username: newUser.username})
+        expect(res.body).toMatchObject({
+            message: `Welcome back ${newUser.username}`
+        })
     })
 
     test(`[12] resolves in an error if username is invalid`, async () => {
         const res = await request(server).post(`/api/auth/login`).send(invalidUsername)
 
         expect(res.status).toBe(400)
-        expect(res.body).toMatchObject({message: `provide a valid username or password`})
+        expect(res.body).toMatchObject({message: `Invalid credentials`})
     })
 
     test(`[13] resolves in an error if password is invalid`, async () => {
         const res = await request(server).post(`/api/auth/login`).send(invalidPass)
 
-        expect(res.status).toBe(400)
-        expect(res.body).toMatchObject({message: `provide a valid username or password`})
+        expect(res.status).toBe(401)
+        expect(res.body).toMatchObject({message: `Invalid credentials`})
     })
 
     test(`[14] resolves in an error if username is not provided`, async () => {
         const res1 = await request(server).post(`/api/auth/login`).send(noUsername)
         expect(res1.status).toBe(400)
-        expect(res1.body).toMatchObject({message: `provide a valid username or password`})
+        expect(res1.body).toMatchObject({message: `Invalid credentials`})
 
         const res2 = await request(server).post(`/api/auth/login`).send(noUsername2)
         expect(res2.status).toBe(400)
-        expect(res2.body).toMatchObject({message: `provide a valid username or password`})
+        expect(res2.body).toMatchObject({message: `Invalid credentials`})
     })
 
     test(`[15] resolves in an error if password is not provided`, async () => {
         const res1 = await request(server).post(`/api/auth/login`).send(noPass)
         expect(res1.status).toBe(400)
-        expect(res1.body).toMatchObject({message: `provide a valid username or password`})
+        expect(res1.body).toMatchObject({message: `Invalid credentials`})
 
         const res2 = await request(server).post(`/api/auth/login`).send(noPass2)
         expect(res2.status).toBe(400)
-        expect(res2.body).toMatchObject({message: `provide a valid username or password`})
+        expect(res2.body).toMatchObject({message: `Invalid credentials`})
     })
 })
