@@ -1,4 +1,3 @@
-// const Users = require(`../users/users-model`)
 const db = require(`../../data/dbConfig`)
 const request = require(`supertest`)
 const server = require(`../server`)
@@ -117,7 +116,7 @@ describe(`[POST] /api/auth/login`, () => {
             username: newUser.username,
             password: newUser.password,
         })
-
+        
         expect(res.status).toBe(200)
         expect(res.body).toMatchObject({
             message: `Welcome back ${newUser.username}`,

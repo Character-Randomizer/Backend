@@ -1,9 +1,9 @@
 const router = require(`express`).Router()
-const { BCRYPT_ROUNDS, JWT_SECRET } = require(`./secrets`) 
-const jwt = require(`jsonwebtoken`)
+const { BCRYPT_ROUNDS } = require(`./secrets`) 
 const bcrypt = require(`bcryptjs`)
 const Users = require(`../users/users-model`)
 const { checkRegisterBody, checkLoginBody } = require("./auth-middleware")
+const { buildToken } = require(`./auth-helper`)
 
 
 router.post(`/register`, checkRegisterBody, (req, res) => {
@@ -48,18 +48,5 @@ router.post(`/login`, checkLoginBody, async (req, res) => {
         })
     }
 })
-
-// When this is in a seperate file, the code does not register that it is a function for some reason. 
-// I have tried different import/export options and none have worked thus far.
-// The token function only works when it is in the file where it is invoked
-const buildToken = user => {
-    const payload = {
-        subject: user.user_id,
-        username: user.username,
-        expiresIn: `1d`
-    }
-
-    return jwt.sign(payload, JWT_SECRET)
-}
 
 module.exports = router
