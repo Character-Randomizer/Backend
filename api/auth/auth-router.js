@@ -1,8 +1,6 @@
 const router = require(`express`).Router()
-const { JWT_SECRET, BCRYPT_ROUNDS } = require(`./secrets`)
-const jwt = require(`jsonwebtoken`)
+const { BCRYPT_ROUNDS } = require(`./secrets`) 
 const bcrypt = require(`bcryptjs`)
-//won't work until I make the below file
 const Users = require(`../users/users-model`)
 const { checkRegisterBody, checkLoginBody } = require("./auth-middleware")
 const { buildToken } = require(`./auth-helper`)
@@ -14,9 +12,9 @@ router.post(`/register`, checkRegisterBody, (req, res) => {
     const hash = bcrypt.hashSync(user.password, BCRYPT_ROUNDS)
     user.password = hash
 
-    Users.add(user)
+    Users.addUser(user)
         .then(async saveUser => {
-            const token = await buildToken(user)
+            const token = await buildToken(saveUser)
 
             res.status(201).json({
                 user: saveUser,
@@ -24,18 +22,19 @@ router.post(`/register`, checkRegisterBody, (req, res) => {
             })
         })
         .catch(err => {
+            console.log(`ERROR:`, err)
+
             res.status(500).json({
-                message: `Occurred in auth-router /register`,
-                error: err
+                message: `Occurred in auth-router '/register'`
         })
     })
 })
 
 router.post(`/login`, checkLoginBody, async (req, res) => {
     let { username, password } = req.body
-    let existingUser = req.body
+    let { existingUser } = req.body
 
-    if(existingUser && bcrypt.compareSync(password, existingUser.password)){
+    if(bcrypt.compareSync(password, existingUser.password)){
         const token = await buildToken(existingUser)
 
         res.status(200).json({
@@ -45,7 +44,9 @@ router.post(`/login`, checkLoginBody, async (req, res) => {
      }
     else{
         res.status(401).json({ 
-            message: `Invalid Credentials`
+            message: `Invalid credentials`
         })
     }
 })
+
+module.exports = router

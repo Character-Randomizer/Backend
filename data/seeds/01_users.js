@@ -9,7 +9,7 @@ const hash = bcrypt.hashSync(process.env.USER, 9)
   //Possibly creating multiple different environmental variables and then setting them at initialization
 
 exports.seed = async function(knex) {
-  await knex('users').insert([
+  await knex('Users').insert([
     {first_name: 'Testy', 
     last_name: `Subject`, 
     username: `testSubject47`, 

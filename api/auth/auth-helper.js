@@ -11,6 +11,4 @@ const buildToken = user => {
     return jwt.sign(payload, JWT_SECRET)
 }
 
-module.export = {
-    buildToken
-}
+module.exports = { buildToken }

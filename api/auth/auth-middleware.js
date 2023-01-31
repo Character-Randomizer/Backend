@@ -4,7 +4,7 @@ const jwt = require(`jsonwebtoken`)
 
 
 function checkRegisterBody(req, res, next){
-    const { username, password, email, 
+    let { username, password, email, 
             terms, first_name, last_name } = req.body
 
     //checks if all information for the user that is required is given:
@@ -25,7 +25,7 @@ function checkRegisterBody(req, res, next){
             }
         }
     
-        Users.findBy({username: username})
+        Users.findBy({ username })
             .then(user => {
                 //checks that the username doesn't exist:
                 if(user === undefined){
@@ -37,11 +37,22 @@ function checkRegisterBody(req, res, next){
                 }
             })
             .catch(err => {
+                console.log(`ERROR:`, err)
+                
                 return res.status(500).json({
-                    message: `Error occurred in auth middleware for free username`,
-                    error: err
+                    message: `Error occurred in auth middleware for checkRegisterBody`
                 })
             })
+    }
+    else if(Boolean(username) === false){
+        return res.status(400).json({
+            message: `username required`
+        })
+    }
+    else if(Boolean(terms) === false){
+        return res.status(400).json({
+            message: `agree to terms to proceed`
+        })
     }
     else{
         return res.status(400).json({message: `user form not valid`})
@@ -57,7 +68,7 @@ function checkLoginBody(req, res, next){
         password
     )){
         //checks if the username is in the db:
-        Users.findBy({username: username})
+        Users.findBy({ username })
             .then(user => {
                 if(!user){
                     return res.status(400).json({message: `Invalid credentials`})
@@ -69,9 +80,10 @@ function checkLoginBody(req, res, next){
                 }
             })
             .catch(err => {
+                console.log(`ERROR:`, err)
+
                 return res.status(500).json({
-                    message: `Occurred in auth middleware for valid username`,
-                    error: err
+                    message: `Occurred in auth middleware for checkLoginBody`
                 })
             })
     }
@@ -80,6 +92,7 @@ function checkLoginBody(req, res, next){
     }
 }
 
+//will need this later to get the users characters
 function tokenValidation(req, res, next){
     const token = req.headers.authorization
 

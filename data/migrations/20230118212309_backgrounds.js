@@ -1,6 +1,6 @@
 exports.up = function(knex) {
     return knex.schema
-        .createTable(`backgrounds`, bg => {
+        .createTable(`Backgrounds`, bg => {
             bg.increments(`background_id`)
             bg.string(`background_name`)
                 .notNullable()
@@ -12,5 +12,5 @@ exports.up = function(knex) {
  
 exports.down = function(knex) {
     return knex.schema 
-        .dropTableIfExists(`backgrounds`)
+        .dropTableIfExists(`Backgrounds`)
 };

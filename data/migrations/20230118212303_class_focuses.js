@@ -1,12 +1,12 @@
 exports.up = function(knex) {  
     return knex.schema
-        .createTable(`class_focuses`, cf => {
+        .createTable(`Class_focuses`, cf => {
             cf.increments(`class_focus_id`)
             cf.integer(`class_id`)
                 .unsigned()
                 .notNullable()
                 .references(`class_id`)
-                .inTable(`classes`)
+                .inTable(`Classes`)
                 .onUpdate(`RESTRICT`)
                 .onDelete(`RESTRICT`)  
             cf.string(`class_focus`)
@@ -19,5 +19,5 @@ exports.up = function(knex) {
  
 exports.down = function(knex) {
     return knex.schema
-        .dropTableIfExists(`class_focuses`)
+        .dropTableIfExists(`Class_focuses`)
 };

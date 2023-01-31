@@ -1,6 +1,6 @@
  
 exports.seed = async function(knex) {
-  await knex('characters').insert([
+  await knex('Characters').insert([
     {
       user_id: 1, 
       first_name: `Marele`,

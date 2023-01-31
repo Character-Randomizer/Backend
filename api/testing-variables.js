@@ -1,7 +1,18 @@
 //username already exists:
 const existingUser = {
-    username: `testSubject47`,
-    password: `bardic`
+    user_id: 1, 
+    first_name: 'Testy', 
+    last_name: `Subject`, 
+    username: `testSubject47`, 
+    email: `test47@gmail.com`, 
+    terms: true, 
+    dob: 9061647
+}
+
+//Updated user:
+const userUpdate = {
+    username: `testy47`,
+    email: `testSubject47@gmail.com`
 }
 
 //New user:
@@ -10,7 +21,7 @@ const newUser = {
     password: `J#g9ujd`,
     first_name: `Corey`,
     last_name: `Star`,
-    email: `starStruck55@gmail.com`,
+    email: `starStruck56@gmail.com`,
     terms: true,
     dob: 10181999
 }
@@ -85,7 +96,7 @@ const newUserExistingUn = {
     first_name: `Corey`,
     last_name: `Star`,
     email: `starStruck55@gmail.com`,
-    terms: false,
+    terms: true,
     dob: 10181999
 }
 
@@ -135,5 +146,6 @@ module.exports = {
     noUsername,
     noUsername2,
     noPass,
-    noPass2
+    noPass2,
+    userUpdate
 }
