@@ -1,6 +1,8 @@
 const router = require(`express`).Router()
 const Users = require(`../users/users-model`)
 const { checkUserId } = require(`./users-middleware`)
+const bcrypt = require(`bcryptjs`)
+const { BCRYPT_ROUNDS } = require(`../auth/secrets`)
 
 router.get(`/`, (req, res) => {
     Users.findAll()
@@ -35,6 +37,11 @@ router.get(`/:id`, checkUserId, (req, res) => {
 router.put(`/:id`, checkUserId, (req, res) => {
     const user_id = req.params.id
     const { changes } = req.body
+
+    if(changes.password){
+        const hash = bcrypt.hashSync(changes.password, BCRYPT_ROUNDS)
+        changes.password = hash
+    }
 
     Users.updateUser({ user_id, changes })
         .then(userUpdated => {

@@ -16,7 +16,7 @@ exports.up = function(knex) {
                 .notNullable()
             users.boolean(`terms`)
                 .notNullable()
-            users.integer(`dob`)
+            users.string(`dob`)
         })
 };
 

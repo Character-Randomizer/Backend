@@ -10,13 +10,14 @@ const hash = bcrypt.hashSync(process.env.USER, 9)
 
 exports.seed = async function(knex) {
   await knex('Users').insert([
-    {first_name: 'Testy', 
-    last_name: `Subject`, 
-    username: `testSubject47`, 
-    password: hash,
-    email: `test47@gmail.com`, 
-    terms: true, 
-    dob: 9061647
-  },
+    {
+      first_name: 'Testy', 
+      last_name: `Subject`, 
+      username: `testSubject47`, 
+      password: hash,
+      email: `test47@gmail.com`, 
+      terms: true, 
+      dob: '09-06-1647'
+    },
   ]);
 };

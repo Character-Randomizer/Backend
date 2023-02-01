@@ -6,7 +6,7 @@ const existingUser = {
     username: `testSubject47`, 
     email: `test47@gmail.com`, 
     terms: true, 
-    dob: 9061647
+    dob: '09-06-1647'
 }
 
 //Updated user:
@@ -23,7 +23,7 @@ const newUser = {
     last_name: `Star`,
     email: `starStruck56@gmail.com`,
     terms: true,
-    dob: 10181999
+    dob: '10/18/1999'
 }
 
 const newUserNoUn = {
@@ -32,7 +32,7 @@ const newUserNoUn = {
     last_name: `Star`,
     email: `starStruck55@gmail.com`,
     terms: true,
-    dob: 10181999
+    dob: '10/18/1999'
 }
 
 const newUserNoPw = {
@@ -41,7 +41,7 @@ const newUserNoPw = {
     last_name: `Star`,
     email: `starStruck55@gmail.com`,
     terms: true,
-    dob: 10181999
+    dob: '10/18/1999'
 }
 
 const newUserNoFirstName = {
@@ -50,7 +50,7 @@ const newUserNoFirstName = {
     last_name: `Star`,
     email: `starStruck55@gmail.com`,
     terms: true,
-    dob: 10181999
+    dob: '10/18/1999'
 }
 
 const newUserNoLastName = {
@@ -59,7 +59,7 @@ const newUserNoLastName = {
     first_name: `Corey`,
     email: `starStruck55@gmail.com`,
     terms: true,
-    dob: 10181999
+    dob: '10/18/1999'
 }
 
 const newUserNoEmail = {
@@ -68,7 +68,7 @@ const newUserNoEmail = {
     first_name: `Corey`,
     last_name: `Star`,
     terms: true,
-    dob: 10181999
+    dob: '10/18/1999'
 }
 
 const newUserTermsFalse = {
@@ -78,7 +78,7 @@ const newUserTermsFalse = {
     last_name: `Star`,
     email: `starStruck55@gmail.com`,
     terms: false,
-    dob: 10181999
+    dob: '10/18/1999'
 }
 
 const newUserNoDob = {
@@ -97,7 +97,7 @@ const newUserExistingUn = {
     last_name: `Star`,
     email: `starStruck55@gmail.com`,
     terms: true,
-    dob: 10181999
+    dob: '10/18/1999'
 }
 
 //Invalid password:

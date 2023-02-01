@@ -22,9 +22,9 @@ const addUser = async (user) => {
         })
 }
 
-const updateUser = async ({user_id, changes}) => {
+const updateUser = async ({ user_id, changes }) => {
     return await db(`Users`)
-        .where({user_id: user_id})
+        .where({ user_id: user_id })
         .update(changes)
         .returning(`*`)
         .then(result => {
