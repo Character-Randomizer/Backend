@@ -36,7 +36,7 @@ router.get(`/:id`, checkUserId, (req, res) => {
 
 router.put(`/:id`, checkUserId, (req, res) => {
     const user_id = req.params.id
-    const changes = req.body
+    const { changes } = req.body
 
     if(changes.password){
         const hash = bcrypt.hashSync(changes.password, BCRYPT_ROUNDS)
