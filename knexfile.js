@@ -18,6 +18,13 @@ module.exports = {
         ...sharedConfig,
         connection: pgConnection || `postgresql://postgres@localhost/char_random`
     },
+    production: {
+        ...sharedConfig,
+        connect: pgConnection,
+        ssl: {
+            rejectUnauthorized: false
+        }
+    },
     testing: {
         ...sharedConfig,
         connection: pgConnection || `postgresql://postgres@localhost/char_random_test`
