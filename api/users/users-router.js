@@ -13,6 +13,7 @@ router.get(`/`, (req, res) => {
             console.log(`ERROR:`, err)
 
             return res.status(500).json({
+                error: err.error,
                 message: `Error occurred in users router [GET] '/'`
             })
         })
