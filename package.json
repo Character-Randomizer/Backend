@@ -4,14 +4,14 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
-    "server": "nodemon index.js",
     "migrate": "knex migrate:latest",
-    "seed": "knex seed:run",
-    "rollback": "knex migrate:rollback",
     "resetdb": "npm run rollback && npm run migrate && npm run seed",
-    "test": "cross-env NODE_ENV=testing jest --verbose --runInBand --watchAll",
-    "prod": "cross-env NODE_ENV=production npm run start"
+    "rollback": "knex migrate:rollback",
+    "seed": "knex seed:run",
+    "server": "nodemon index.js",
+    "start": "node index.js",
+    "start:prod": "cross-env NODE_ENV=production && npm run start",
+    "test": "cross-env NODE_ENV=testing jest --verbose --runInBand --watchAll"
   },
   "repository": {
     "type": "git",
