@@ -10,7 +10,6 @@
     "seed": "knex seed:run",
     "server": "nodemon index.js",
     "start": "node index.js",
-    "start:prod": "cross-env NODE_ENV=production && npm run start",
     "test": "cross-env NODE_ENV=testing jest --verbose --runInBand --watchAll"
   },
   "repository": {
