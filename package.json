@@ -11,7 +11,7 @@
     "rollback": "knex migrate:rollback",
     "resetdb": "npm run rollback && npm run migrate && npm run seed",
     "test": "cross-env NODE_ENV=testing jest --verbose --runInBand --watchAll",
-    "start-prod": "cross-env NODE_ENV=production node index.js "
+    "start-prod": "cross-env NODE_ENV=production && node index.js "
   },
   "repository": {
     "type": "git",
