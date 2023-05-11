@@ -1,7 +1,7 @@
 const bcrypt = require(`bcryptjs`)
 require('dotenv').config()
 
-const hash = bcrypt.hashSync(process.env.USER, 9)
+const hash = bcrypt.hashSync(process.env.PASSWORD, 9)
 
 // Used this article to help me: https://medium.com/@jengopockets/encrypting-seeded-passwords-with-node-js-knex-and-bcrypt-e2efe56f745e
 
