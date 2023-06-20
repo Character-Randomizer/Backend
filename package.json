@@ -11,7 +11,8 @@
     "seed": "knex seed:run",
     "server": "nodemon index.js",
     "start": "node index.js",
-    "test": "cross-env NODE_ENV=testing jest --verbose --runInBand --watchAll"
+    "test": "cross-env NODE_ENV=testing jest --verbose --runInBand --watchAll",
+    "test:ci": "cross-env DB_ENV=testing jest --runInBand --forceExit"
   },
   "repository": {
     "type": "git",
