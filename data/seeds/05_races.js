@@ -1,33 +1,5 @@
-//Just from players handbook currently
+const { test_races } = require('../../api/test_constants/races')
 
 exports.seed = async function(knex) {
-  await knex('Races').insert([
-    {
-      race_name: `Dwarf`
-    },
-    {
-      race_name: `Elf`
-    },
-    {
-      race_name: `Halfling`
-    },
-    {
-      race_name: `Human`
-    },
-    {
-      race_name: `Dragonborn`
-    },
-    {
-      race_name: `Gnome`
-    },
-    {
-      race_name: `Half-Elf`
-    },
-    {
-      race_name: `Half-Orc`
-    },
-    {
-      race_name: `Tiefling`
-    },
-  ]);
+  await knex('Races').insert(test_races);
 };
