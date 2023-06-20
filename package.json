@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "clearJest": "jest --clearCache",
     "migrate": "knex migrate:latest",
     "resetdb": "npm run rollback && npm run migrate && npm run seed",
     "rollback": "knex migrate:rollback",
