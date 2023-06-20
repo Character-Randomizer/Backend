@@ -1,7 +1,8 @@
 const bcrypt = require(`bcryptjs`)
+const { BCRYPT_ROUNDS } = require(`../../api/auth/secrets`) 
 require('dotenv').config()
 
-const hash = bcrypt.hashSync(process.env.PASSWORD, 9)
+const hash = bcrypt.hashSync(process.env.PASSWORD, parseInt(BCRYPT_ROUNDS))
 
 // Used this article to help me: https://medium.com/@jengopockets/encrypting-seeded-passwords-with-node-js-knex-and-bcrypt-e2efe56f745e
 
