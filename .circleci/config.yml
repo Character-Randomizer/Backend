@@ -1,23 +1,47 @@
 # Documentation: https://circleci.com/docs/2.0/configuration-reference
 version: 2.1
 
-orbs:
-  # See the orb documentation here: https://circleci.com/developer/orbs/orb/circleci/node
-  node: circleci/node@4.7
-
 jobs:
   build-test:
     docker:
-      - image: cimg/node:19.4.0
+      - image: cimg/node:16.15.0
+        environment:
+          BCRYPT_ROUNDS: BCRYPT_ROUNDS
+          DATABASE_URL: DATABASE_URL
+          JWT_SECRET: JWT_SECRET
+          PASSWORD: PASSWORD
+          NODE_ENV: testing
+      - image: cimg/postgres:14.0
+        environment:
+          POSTGRES_USER: postgres
     steps:
       - checkout
-      - node/install-packages:
-          pkg-manager: npm ci
+      - run: 
+          name: Install dependencies
+          command: npm ci
+      - run:
+          name: Install knex
+          command: npm install -g knex
+      - run: sudo apt-get update
+      - run: sudo apt-get install postgresql-client
+      - run: 
+          name: Add database for PostgreSQL
+          command: psql -U postgres -h localhost -p 5432 -c "create database char_random_test;"
+      - run:
+          name: Migrate tables
+          command: knex migrate:latest
+      - run:
+          name: Seed tables
+          command: knex seed:run
       - run:
           name: Run tests
           command: npm run test:ci
+      - persist_to_workspace:
+          root: .
+          paths: 
+            - . 
 
 workflows:
-  build-test:
+  test:
     jobs:
       - build-test
