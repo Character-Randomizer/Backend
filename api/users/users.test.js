@@ -1,6 +1,6 @@
 const Users = require(`./users-model`)
 const db = require(`../../data/dbConfig`)
-const { existingUser, newUser, userUpdate } = require(`../testing-variables`)
+const { existingUser, newUser, userUpdate } = require(`../test_constants/users`)
 const request = require(`supertest`)
 const server = require(`../server`)
 

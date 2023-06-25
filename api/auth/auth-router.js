@@ -6,10 +6,11 @@ const { checkRegisterBody, checkLoginBody } = require("./auth-middleware")
 const { buildToken } = require(`./auth-helper`)
 
 
-router.post(`/register`, checkRegisterBody, (req, res) => {
+router.post(`/register`, checkRegisterBody, async (req, res) => {
     let user = req.body
+    let salt = parseInt(BCRYPT_ROUNDS)
 
-    const hash = bcrypt.hashSync(user.password, BCRYPT_ROUNDS)
+    const hash = bcrypt.hashSync(user.password, salt)
     user.password = hash
 
     Users.addUser(user)
@@ -25,6 +26,7 @@ router.post(`/register`, checkRegisterBody, (req, res) => {
             console.log(`ERROR:`, err)
 
             res.status(500).json({
+                error: err,
                 message: `Occurred in auth-router '/register'`
         })
     })

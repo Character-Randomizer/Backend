@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "clearJest": "jest --clearCache",
     "migrate": "knex migrate:latest",
     "resetdb": "npm run rollback && npm run migrate && npm run seed",
     "rollback": "knex migrate:rollback",
@@ -11,7 +12,7 @@
     "server": "nodemon index.js",
     "start": "node index.js",
     "test": "cross-env NODE_ENV=testing jest --verbose --runInBand --watchAll",
-    "test:ci": "cross-env DB_ENV=testing jest --runInBand --forceExit"
+    "test:ci": "cross-env NODE_ENV=testing jest --runInBand --forceExit"
   },
   "repository": {
     "type": "git",

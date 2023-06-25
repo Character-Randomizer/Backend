@@ -7,7 +7,7 @@ const {
         newUserTermsFalse, newUserNoDob, newUserExistingUn, 
         invalidPass, invalidUsername, noUsername, 
         noUsername2, noPass, noPass2
-    } = require(`../testing-variables`)
+    } = require(`../test_constants/users`)
 
 beforeAll(async () => {
     await db.migrate.rollback()

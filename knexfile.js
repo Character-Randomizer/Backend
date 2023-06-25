@@ -1,6 +1,6 @@
 require('dotenv').config()
 
-const pgConnection = process.env.DATABASE_URL
+const pgConnection = process.env.API_URL
 
 const sharedConfig = {
     client: `pg`,
@@ -16,7 +16,7 @@ const sharedConfig = {
 module.exports = {
     development: {
         ...sharedConfig,
-        connection: pgConnection || `postgresql://postgres@localhost/char_random`
+        connection: `postgresql://postgres@localhost/char_random`
     },
     production: {
         ...sharedConfig,
@@ -27,6 +27,6 @@ module.exports = {
     },
     testing: {
         ...sharedConfig,
-        connection: pgConnection || `postgresql://postgres@localhost/char_random_test`
+        connection: `postgresql://postgres@localhost/char_random_test`
     }
 }
