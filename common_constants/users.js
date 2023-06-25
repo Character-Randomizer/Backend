@@ -1,5 +1,5 @@
 const bcrypt = require(`bcryptjs`)
-const { BCRYPT_ROUNDS } = require(`../../api/auth/secrets`) 
+const { BCRYPT_ROUNDS } = require(`../api/auth/secrets`) 
 
 const hash = bcrypt.hashSync(process.env.PASSWORD, parseInt(BCRYPT_ROUNDS))
 
