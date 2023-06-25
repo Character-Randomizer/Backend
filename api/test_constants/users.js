@@ -1,3 +1,26 @@
+const bcrypt = require(`bcryptjs`)
+const { BCRYPT_ROUNDS } = require(`../../api/auth/secrets`) 
+
+const hash = bcrypt.hashSync(process.env.PASSWORD, parseInt(BCRYPT_ROUNDS))
+
+// Used this article to help me: https://medium.com/@jengopockets/encrypting-seeded-passwords-with-node-js-knex-and-bcrypt-e2efe56f745e
+
+//Need to set environmental variable when setting up seeds, unsure how to modify this for more than one user at this time
+  //Possibly creating multiple different environmental variables and then setting them at initialization
+
+//seeded user:
+const seedUsers = [
+    {
+      first_name: 'Testy', 
+      last_name: `Subject`, 
+      username: `testSubject47`, 
+      password: hash,
+      email: `test47@gmail.com`, 
+      terms: true, 
+      dob: '09-06-1647'
+    },
+  ]
+
 //username already exists:
 const existingUser = {
     user_id: 1, 
@@ -147,5 +170,6 @@ module.exports = {
     noUsername2,
     noPass,
     noPass2,
+    seedUsers,
     userUpdate
 }
