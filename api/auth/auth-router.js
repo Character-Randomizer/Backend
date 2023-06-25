@@ -8,8 +8,9 @@ const { buildToken } = require(`./auth-helper`)
 
 router.post(`/register`, checkRegisterBody, async (req, res) => {
     let user = req.body
+    let salt = parseInt(BCRYPT_ROUNDS)
 
-    const hash = bcrypt.hashSync(user.password, BCRYPT_ROUNDS)
+    const hash = bcrypt.hashSync(user.password, salt)
     user.password = hash
 
     Users.addUser(user)
