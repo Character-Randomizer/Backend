@@ -10,6 +10,7 @@ jobs:
           DATABASE_URL: DATABASE_URL
           JWT_SECRET: JWT_SECRET
           PASSWORD: PASSWORD
+          NODE_ENV: testing
       - image: cimg/postgres:14.0
         environment:
           POSTGRES_USER: postgres
