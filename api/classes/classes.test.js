@@ -1,6 +1,6 @@
 const ClassModel = require(`./classes-model`)
 const db = require(`../../data/dbConfig`)
-const { expected_classes} = require(`../test_constants/classes`)
+const { expected_classes} = require(`../../common_constants/classes`)
 const server = require(`../server`)
 const supertest = require("supertest")
 
