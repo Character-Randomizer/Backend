@@ -1,6 +1,6 @@
 const ClassModel = require(`./classes-model`)
 const db = require(`../../data/dbConfig`)
-const { expected_classes} = require(`../../common_constants/classes`)
+const { expected_classes } = require(`../../common_constants/classes`)
 const server = require(`../server`)
 const supertest = require("supertest")
 
@@ -14,14 +14,14 @@ beforeAll(async () => {
     await resetdb()
 })
 
-describe(`Classes Router /api/classes`, () => {
+describe(`Classes Router /api/class`, () => {
     describe(`[1] Classes model is working correctly`, () => {
         test(`[1.1] getAllClasses retrieves all classes`, async () => {
             const res = await ClassModel.getAllClasses()
 
-            expect(res).toHaveLength(14)
+            expect(res).toHaveLength(expected_classes.length)
         })
-        test(`[1.2] getClassById returns class by id`, async () => {
+        test(`[1.2] getClassBy returns class by id`, async () => {
             const res = await ClassModel.getClassBy('class_id', 6)
 
             expect(res).toMatchObject({
@@ -37,21 +37,21 @@ describe(`Classes Router /api/classes`, () => {
         describe(`[2.1] GET '/'`, () => {
             test(`[2.11] returns 200 ok`, async () => {
                 let res = await supertest(server)
-                    .get('/api/classes')
+                    .get('/api/class')
                 
                 expect(res.status).toBe(200)
             })
 
             test(`[2.11] returns an array of classes`, async () => {
                 let res = await supertest(server)
-                    .get('/api/classes')
+                    .get('/api/class')
                 
                 expect(res.body).toHaveLength(14)
             })
 
             test(`[2.12] returns an array containing all of the classes`, async () => {
                 let res = await supertest(server)
-                    .get('/api/classes')
+                    .get('/api/class')
                 
                 expect(res.body).toEqual(expect.arrayContaining(expected_classes))
             })
@@ -60,14 +60,14 @@ describe(`Classes Router /api/classes`, () => {
                 await db.raw('TRUNCATE "Classes" RESTART IDENTITY CASCADE')
 
                 let res = await supertest(server)
-                    .get('/api/classes')
+                    .get('/api/class')
 
                 expect(res.status).toBe(404)
             })
 
             test(`[2.14] returns 404 message when no classes in db`, async () => {
                 let res = await supertest(server)
-                    .get('/api/classes')
+                    .get('/api/class')
 
                 expect(res.body).toMatchObject({
                     message: `No classes in db`
@@ -82,21 +82,21 @@ describe(`Classes Router /api/classes`, () => {
 
             test(`[2.21] returns 200 ok with `, async () => {
                 let res = await supertest(server)
-                    .get(`/api/classes/${5}`)
+                    .get(`/api/class/${5}`)
 
                 expect(res.status).toBe(200)
             })
 
             test(`[2.22] returns with an object `, async () => {
                 let res = await supertest(server)
-                    .get(`/api/classes/${5}`)
+                    .get(`/api/class/${5}`)
 
                 expect(res.body).toMatchObject(expected_classes[4])
             })
 
             test(`[2.23] returns 404 not found when no class with id exists`, async () => {
                 let res = await supertest(server)
-                    .get(`/api/classes/${9000}`)
+                    .get(`/api/class/${9000}`)
         
                 expect(res.body).toMatchObject({
                     message: `Could not get class with id: 9000`
