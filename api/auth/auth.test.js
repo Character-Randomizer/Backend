@@ -20,7 +20,7 @@ beforeEach(async () => {
 
 describe(`sanity test - [GET] /`, () => {
     test(`server is running`, async () => {
-        const res = await request(server).get(`/`)
+        const res = await request(server).get(`/api`)
 
         expect(res.status).toBe(200)
         expect(res.body).toMatchObject({message: `API is up and running!`})
