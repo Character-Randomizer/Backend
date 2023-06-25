@@ -11,7 +11,7 @@ server.use(`/api/users`, userRouter)
 server.use(`/api/auth`, authRouter)
 server.use(`/api/classes`, classesRouter)
 
-server.get(`/`, (req, res) => {
+server.get(`/api`, (req, res) => {
     res.status(200).json({message: `API is up and running!`})
 })
 

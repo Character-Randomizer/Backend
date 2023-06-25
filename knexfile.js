@@ -1,6 +1,6 @@
 require('dotenv').config()
 
-const pgConnection = process.env.API_URL
+const pgConnection = process.env.DB_URL
 
 const sharedConfig = {
     client: `pg`,
