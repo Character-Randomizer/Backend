@@ -33,21 +33,21 @@ describe(`Class Focuses Router /api/alignment`, () => {
         describe(`[2.1] GET '/'`, () => {
             test(`[2.11] returns 200 ok`, async () => {
                 let res = await supertest(server)
-                    .get('/api/class_focus')
+                    .get('/api/class-focus')
                 
                 expect(res.status).toBe(200)
             })
 
             test(`[2.11] returns an array of class focuses`, async () => {
                 let res = await supertest(server)
-                    .get('/api/class_focus')
+                    .get('/api/class-focus')
                 
                 expect(res.body).toHaveLength(expected_focuses.length)
             })
 
             test(`[2.12] returns an array containing all of the class focuses`, async () => {
                 let res = await supertest(server)
-                    .get('/api/class_focus')
+                    .get('/api/class-focus')
                 
                 expect(res.body).toEqual(expect.arrayContaining(expected_focuses))
             })
@@ -56,14 +56,14 @@ describe(`Class Focuses Router /api/alignment`, () => {
                 await db.raw('TRUNCATE "Class_Focuses" RESTART IDENTITY CASCADE')
 
                 let res = await supertest(server)
-                    .get('/api/class_focus')
+                    .get('/api/class-focus')
 
                 expect(res.status).toBe(404)
             })
 
             test(`[2.14] returns 404 message when no class focuses in db`, async () => {
                 let res = await supertest(server)
-                    .get('/api/class_focus')
+                    .get('/api/class-focus')
 
                 expect(res.body).toMatchObject({
                     message: `No focuses in db`
@@ -78,21 +78,21 @@ describe(`Class Focuses Router /api/alignment`, () => {
 
             test(`[2.21] returns 200 ok with `, async () => {
                 let res = await supertest(server)
-                    .get(`/api/class_focus/${5}`)
+                    .get(`/api/class-focus/${5}`)
 
                 expect(res.status).toBe(200)
             })
 
             test(`[2.22] returns with an object `, async () => {
                 let res = await supertest(server)
-                    .get(`/api/class_focus/${5}`)
+                    .get(`/api/class-focus/${5}`)
 
                 expect(res.body).toMatchObject(expected_focuses[4])
             })
 
             test(`[2.23] returns 404 not found when no class focus with id exists`, async () => {
                 let res = await supertest(server)
-                    .get(`/api/class_focus/${9000}`)
+                    .get(`/api/class-focus/${9000}`)
         
                 expect(res.body).toMatchObject({
                     message: `Could not get class focus with id: 9000`
