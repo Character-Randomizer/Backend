@@ -3,6 +3,7 @@ const {
     getAllClasses,
     getClassBy
 } = require('./classes-model')
+const { getFocusBy } = require('../class_focuses/class-focus-model')
 
 router
     .get(`/`, (req, res) => {
@@ -23,6 +24,27 @@ router
                 })
             })
 })
+
+router
+    .get(`/:id/focus`, (req, res) => {
+        const class_id = req.params.id
+
+        getFocusBy('class_id', class_id)
+            .then(item => {
+                if(!item){
+                    return res.status(404).json({
+                        message: `Could not get class focuses with class id: ${class_id}`
+                    })
+                }
+                return res.status(200).json(item)
+            })
+            .catch(err => {
+                return res.status(500).json({
+                    message: `Error occurred in classes router [GET] '/:id/focus'`,
+                    error: err.error
+                })
+            })
+    })
 
 router
     .get(`/:id`, (req, res) => {
