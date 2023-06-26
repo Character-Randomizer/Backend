@@ -19,8 +19,8 @@ server.use(`/api/auth`, authRouter)
 server.use(`/api/background`, backgroundRouter)
 server.use(`/api/class`, classRouter)
 server.use(`/api/class_focus`, classFocusRouter)
-// server.use(`/api/gender`, genderRouter)
-// server.use(`/api/race`, raceRouter)
+server.use(`/api/gender`, genderRouter)
+server.use(`/api/race`, raceRouter)
 server.use(`/api/users`, userRouter)
 
 
