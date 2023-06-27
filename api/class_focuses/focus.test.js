@@ -1,6 +1,6 @@
-const FocusModel = require(`./class-focus-model`)
+const FocusModel = require(`./focus-model`)
 const db = require(`../../data/dbConfig`)
-const { expected_focuses } = require(`../../common_constants/class_focuses`)
+const { expected_focuses } = require(`../../common_constants/class-focuses`)
 const server = require(`../server`)
 const supertest = require("supertest")
 

@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const { getAll, getFocusBy } = require('./class-focus-model')
+const { getAll, getFocusBy } = require('./focus-model')
 
 router
     .get(`/`, (req, res) => {
