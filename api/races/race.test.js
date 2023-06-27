@@ -14,7 +14,7 @@ beforeAll(async () => {
     await resetdb()
 })
 
-describe(`Races Router /api/alignment`, () => {
+describe(`Races Router /api/race`, () => {
     describe(`[1] Races model is working correctly`, () => {
         test(`[1.1] getAll retrieves all races`, async () => {
             const res = await RaceModel.getAll()

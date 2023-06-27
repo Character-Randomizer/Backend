@@ -1,6 +1,6 @@
-const FocusModel = require(`./class-focus-model`)
+const FocusModel = require(`./focus-model`)
 const db = require(`../../data/dbConfig`)
-const { expected_focuses } = require(`../../common_constants/class_focuses`)
+const { expected_focuses } = require(`../../common_constants/class-focuses`)
 const server = require(`../server`)
 const supertest = require("supertest")
 
@@ -14,14 +14,14 @@ beforeAll(async () => {
     await resetdb()
 })
 
-describe(`Class Focuses Router /api/alignment`, () => {
+describe(`Class Focuses Router /api/class-focus`, () => {
     describe(`[1] Class Focuses model is working correctly`, () => {
         test(`[1.1] getAll retrieves all class focuses`, async () => {
             const res = await FocusModel.getAll()
 
             expect(res).toHaveLength(expected_focuses.length)
         })
-        test(`[1.2] getAlignBy returns alignment by id`, async () => {
+        test(`[1.2] getAlignBy returns class focus by id`, async () => {
             const res = await FocusModel.getFocusBy('focus_id', 6)
 
             expect(res).toMatchObject(expected_focuses[5])

@@ -14,7 +14,7 @@ beforeAll(async () => {
     await resetdb()
 })
 
-describe(`Genders Router /api/alignment`, () => {
+describe(`Genders Router /api/gender`, () => {
     describe(`[1] Genders model is working correctly`, () => {
         test(`[1.1] getAll retrieves all genders`, async () => {
             const res = await GendersModel.getAll()
