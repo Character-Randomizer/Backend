@@ -10,7 +10,7 @@
     "rollback": "knex migrate:rollback",
     "seed": "knex seed:run",
     "server": "nodemon index.js",
-    "start": "node index.js",
+    "start": "npm run resetdb && node index.js",
     "test": "cross-env NODE_ENV=testing jest --verbose --runInBand --watchAll",
     "test:ci": "cross-env NODE_ENV=testing jest --runInBand --forceExit"
   },
@@ -18,7 +18,7 @@
     "type": "git",
     "url": "git+https://github.com/Character-Randomizer/Backend.git"
   },
-  "author": "",
+  "author": "Alexandria Duell",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/Character-Randomizer/Backend/issues"

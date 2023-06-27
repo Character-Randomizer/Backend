@@ -14,6 +14,7 @@ router
                 return res.status(200).json(focuses)
             })
             .catch(err => {
+                console.log(`error:`, err, `error message?:`, err.message, `error error?`, err.error)
                 return res.status(500).json({
                     message: `Error occurred in focuses router [GET] '/'`,
                     error: err.error
