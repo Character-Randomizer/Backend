@@ -3,7 +3,7 @@ const {
     getAllClasses,
     getClassBy
 } = require('./classes-model')
-const { getFocusBy } = require('../class_focuses/focus-model')
+const { getFocusBy } = require('../class-focuses/focus-model')
 
 router
     .get(`/`, (req, res) => {
