@@ -1,4 +1,4 @@
-const test_classes = [
+const classes = [
     {
       class: 'Artificer',
       class_description: `Masters of invention, artificers use ingenuity and magic to unlcok exraordinary capabilities in objects.`
@@ -131,6 +131,6 @@ const test_classes = [
   ];
 
   module.exports = {
-    test_classes,
+    classes,
     expected_classes
   }
